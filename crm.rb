@@ -56,46 +56,31 @@ class CRM
       print 'Enter a Note: '
       note = gets.chomp
 
-      Contact.create(first_name, last_name, email, note)
+      Contact.create(
+        first_name: first_name,
+        last_name: last_name,
+        email: email,
+        note: note
+      )
   end
 
 
   def modify_existing_contact
     puts "Enter id of the guy you wanna change"
     ider = gets.chomp.to_i
+    puts "What is wrong with them, what attribute do you want to update?"
+    attribute = gets.chomp
+    puts "What is the new value you want to change to?"
+    new_value = gets.chomp
     person = Contact.find(ider)
-    Contact.update(person)
+    person.update({attribute => new_value})
   end
 
-
-   # def self.modify_existing_contact
-   #   new_value = nil
-   #   puts "Who would you like to change? (id please)"
-   #   ider = gets.chomp.to_i
-   #   puts "What would you like to change about them? (add '_write')"
-   #   attrib = gets.chomp.to_s
-   #   puts "What would you like them to be changed to?"
-   #   new_value = gets.chomp
-   #
-   #   puts Contact.changer(ider, attrib, new_value)
-   # end
-
-  # def self.modify_existing_contact
-  #   puts "Who would you like to change (input id)?"
-  #   a = gets.chomp
-  #   the_list = Contact.all
-  #   the_guy = []
-  #   the_list.each do |contacter|
-  #     if contacter.id == a
-  #       the_guy = contacter
-  #     end
-  #     return the_guy
-  #     puts the_guy.inspect
-  #   end
-  # end
-
   def delete_contact
-    puts Contact.delete_em
+    puts "Who do you want to get rid of (id)?"
+    input = gets.chomp.to_i
+    person = Contact.find(input)
+    person.delete
   end
 
   def display_all_contacts
@@ -103,34 +88,20 @@ class CRM
   end
 
   def search_by_attribute
-    puts Contact.find_by.inspect
+    puts "How do you want to stalk the person (input attribute)?"
+    attribute = gets.chomp
+    puts "What is that person's attribute value?"
+    value = gets.chomp
+    result = Contact.where({attribute => value})
+    result.each do |contact|
+      puts "#{contact.first_name} #{contact.last_name} has #{contact.email}"
+      puts "note: #{contact.note}"
+      puts "-" * 20
+    end
   end
 
 
 end
 
 
-# CRM.delete_contact
-# puts CRM.display_all_contacts
 mine = CRM.new('Mine')
-# new_crm.modify_existing_contact
-# CRM.modify_existing_contact
-
-
-
-# puts '*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*'
-# puts Contact.update(ronk)
-#
-# puts betty.email # => 'bettymakes@gmail.com'
-# betty.note = 'Loves HTML & CSS'
-# puts Contact.all.inspect
-#
-# Contact.update(contact)
-# puts "$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$"
-# puts Contact.find_by.inspect
-# puts "$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$"
-#
-# Contact.delete_em(johnny)
-# puts Contact.all.inspect
-# Contact.delete_all
-# puts Contact.all.inspect
